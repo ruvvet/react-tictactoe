@@ -65,7 +65,7 @@ function App() {
       if (combos[i][0] !== null && new Set(combos[i]).size == 1) {
         // if (combos[i].every(x => x == combos[i][0]) && !combos[i].includes(null)) {
         //update players score
-        
+
         return true;
       }
     }
@@ -127,10 +127,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>{message}</h1>
+      <div class="message">{message}</div>
       <Spaces handleClick={handleClick} board={board} />
 
-      <h2>Player Turn{player.player}</h2>
+      <div>Player {player.player} Turn</div>
     </div>
   );
 }

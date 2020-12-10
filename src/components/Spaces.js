@@ -16,7 +16,7 @@ export default function Spaces({ handleClick, board }) {
           id={`${x}${y}`}
         >
           {/* here we are reflecting the state of the virtual board by index */}
-          {x}{y}---<h1>{board[x][y]}</h1>
+          <div className="print">{board[x][y]}</div>
         </button>
       );
     }
