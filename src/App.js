@@ -16,6 +16,8 @@ function App() {
     [...Array(3)].map(() => Array(3).fill(null))
   );
 
+  const [highlight, setHighlight] = useState({});
+
   // initialize the player
   const [player, setPlayer] = useState(players[0]);
 
@@ -40,32 +42,62 @@ function App() {
     ];
 
     // all potential winning combos
-    let combos = [
-      // Horizontal wins:
-      boardRow[0],
-      boardRow[1],
-      boardRow[2],
-      // Vertical wins
-      boardCol[0],
-      boardCol[1],
-      boardCol[2],
-      // Diagonal top left to bottom right
-      [board[0][0], board[1][1], board[2][2]],
-      // Diagonal top right to bottom left
-      [board[2][0], board[1][1], board[0][2]],
-    ];
+    //  const combos = [
+    //     // Horizontal wins:
+    //     boardRow[0],
+    //     boardRow[1],
+    //     boardRow[2],
+    //     // Vertical wins
+    //     boardCol[0],
+    //     boardCol[1],
+    //     boardCol[2],
+    //     // Diagonal top left to bottom right
+    //     [board[0][0], board[1][1], board[2][2]],
+    //     // Diagonal top right to bottom left
+    //     [board[2][0], board[1][1], board[0][2]],
+    //   ];
 
-    // check each element in winning lines to see if any row is equal
-    // loop through each element in combos
-    for (let i = 0; i < combos.length; i++) {
-      // If every element is the same, and not null
+    //   // check each element in winning lines to see if any row is equal
+    //   // loop through each element in combos
+    //   for (let i = 0; i < combos.length; i++) {
+    //     // If every element is the same, and not null
 
-      // null, X, X
-      // null, null, null
-      if (combos[i][0] !== null && new Set(combos[i]).size == 1) {
-        // if (combos[i].every(x => x == combos[i][0]) && !combos[i].includes(null)) {
-        //update players score
+    //     // null, X, X
+    //     // null, null, null
+    //     if (combos[i][0] !== null && new Set(combos[i]).size == 1) {
+    //       // if (combos[i].every(x => x == combos[i][0]) && !combos[i].includes(null)) {
+    //       //update players score
 
+    //       return true;
+    //     }
+    //   }
+
+    for (let i = 0; i < 3; i++) {
+      if (
+        board[0][i] !== null &&
+        board[0][i] === board[1][i] &&
+        board[1][i] === board[2][i]
+      ) {
+        setHighlight({
+          [`0,${i}`]: 'highlight',
+          [`1,${i}`]: 'highlight',
+          [`2,${i}`]: 'highlight',
+        });
+        return true;
+      }
+    }
+
+    for (let i = 0; i < 3; i++) {
+      if (
+        board[i][0] !== null &&
+        board[i][0] === board[i][1] &&
+        board[i][1] === board[i][2]
+      ) {
+        setHighlight({
+          [`${i},0`]: 'highlight',
+          [`${i},1`]: 'highlight',
+          [`${i},2`]: 'highlight',
+        });
         return true;
       }
     }
@@ -128,7 +160,7 @@ function App() {
   return (
     <div className="App">
       <div class="message">{message}</div>
-      <Spaces handleClick={handleClick} board={board} />
+      <Spaces handleClick={handleClick} board={board} highlight={highlight} />
 
       <div>Player {player.player} Turn</div>
     </div>
@@ -136,3 +168,6 @@ function App() {
 }
 
 export default App;
+
+
+// useeffect - > reset
