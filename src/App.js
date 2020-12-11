@@ -1,14 +1,15 @@
 import Spaces from './components/Spaces';
-import Board from './components/Board';
 import './App.css';
 import React, { useState } from 'react';
 
 function App() {
   // CREATE THE PLAYERS
-  const players = [
-    { player: 1, mark: 'X', img: 'img/cross.png', score: 0 },
-    { player: 2, mark: 'O', img: 'img/heart.png', score: 0 },
-  ];
+  const [players, setPlayers] = useState([
+    { player: 1, mark: 'X', score: 0 },
+    { player: 2, mark: 'O', score: 0 },
+  ]);
+
+  console.log(players);
 
   // initialize the board
   const [board, setBoard] = useState(
@@ -21,8 +22,7 @@ function App() {
   // initialize the player
   const [player, setPlayer] = useState(players[0]);
 
-  const [playerOneScore, setPlayerOneScore] = useState(0);
-  const [playerTwoScore, setPlayerTwoScore] = useState(0);
+  const [playerScore, setPlayerScore] = useState();
 
   // CHECK WIN CONDITION
 
@@ -32,46 +32,7 @@ function App() {
     // winner happens when three in a row
     // else board is full and it's a tie
 
-    // all rows of the board
-    let boardRow = [board[0], board[1], board[2]];
-    // all col of the board
-    let boardCol = [
-      [board[0][0], board[1][0], board[2][0]],
-      [board[0][1], board[1][1], board[2][1]],
-      [board[0][2], board[1][2], board[2][2]],
-    ];
-
-    // all potential winning combos
-    //  const combos = [
-    //     // Horizontal wins:
-    //     boardRow[0],
-    //     boardRow[1],
-    //     boardRow[2],
-    //     // Vertical wins
-    //     boardCol[0],
-    //     boardCol[1],
-    //     boardCol[2],
-    //     // Diagonal top left to bottom right
-    //     [board[0][0], board[1][1], board[2][2]],
-    //     // Diagonal top right to bottom left
-    //     [board[2][0], board[1][1], board[0][2]],
-    //   ];
-
-    //   // check each element in winning lines to see if any row is equal
-    //   // loop through each element in combos
-    //   for (let i = 0; i < combos.length; i++) {
-    //     // If every element is the same, and not null
-
-    //     // null, X, X
-    //     // null, null, null
-    //     if (combos[i][0] !== null && new Set(combos[i]).size == 1) {
-    //       // if (combos[i].every(x => x == combos[i][0]) && !combos[i].includes(null)) {
-    //       //update players score
-
-    //       return true;
-    //     }
-    //   }
-
+    // check the rows
     for (let i = 0; i < 3; i++) {
       if (
         board[0][i] !== null &&
@@ -87,6 +48,7 @@ function App() {
       }
     }
 
+    //check the columns
     for (let i = 0; i < 3; i++) {
       if (
         board[i][0] !== null &&
@@ -100,6 +62,33 @@ function App() {
         });
         return true;
       }
+    }
+
+    //check the diagonals
+    if (
+      board[0][0] !== null &&
+      board[0][0] === board[1][1] &&
+      board[1][1] === board[2][2]
+    ) {
+      setHighlight({
+        [`0,0`]: 'highlight',
+        [`1,1`]: 'highlight',
+        [`2,2`]: 'highlight',
+      });
+      return true;
+    }
+
+    if (
+      board[2][0] !== null &&
+      board[2][0] === board[1][1] &&
+      board[1][1] === board[0][2]
+    ) {
+      setHighlight({
+        [`2,0`]: 'highlight',
+        [`1,1`]: 'highlight',
+        [`0,2`]: 'highlight',
+      });
+      return true;
     }
 
     // If no winner was found, check if the board is full, that would be a tie:
@@ -137,6 +126,16 @@ function App() {
 
       if (checkWinner()) {
         setMessage('Winner');
+        //update the score
+        player.score++;
+
+        // const playersCopy = [...players];
+        // const findPlayer = (p) => p.player === player.player;
+
+        // const playerIndex = players.findIndex(findPlayer);
+        // // playersCopy[playerIndex].score++;
+
+        // setPlayers(playersCopy);
       } else if (checkWinner() == 'Tie') {
         setMessage('Tie');
       } else {
@@ -157,17 +156,38 @@ function App() {
     //????????? it only works like 2x
   };
 
+  const clearBoard = () => {
+    setBoard([...Array(3)].map(() => Array(3).fill(null)));
+    setPlayer(players[0]);
+    setHighlight([])
+  };
+
   return (
     <div className="App">
-      <div class="message">{message}</div>
+      <div className="message">{message}</div>
       <Spaces handleClick={handleClick} board={board} highlight={highlight} />
 
-      <div>Player {player.player} Turn</div>
+      <div>
+        Player {player.player} ({player.mark}) Turn
+      </div>
+
+      <div>
+        <div>Player 1:  {players[0].score} </div>
+        <div>Player 2:  {players[1].score} </div>
+      </div>
+
+      <button onClick={clearBoard}>reset</button>
     </div>
   );
 }
 
 export default App;
 
-
 // useeffect - > reset
+//https://reactjs.org/tutorial/tutorial.html#declaring-a-winner
+
+
+
+
+//input to set a marker >> update player's'
+// say who goes first >> update player

@@ -35,5 +35,7 @@
 }
 
 .highlight{
-    background: green;
+    background: #CF6679;
+    color: white;
+    font-size: 70px;
 }

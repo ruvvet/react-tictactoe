@@ -11,7 +11,7 @@ export default function Spaces({ handleClick, board, highlight }) {
     for (let y = 0; y < 3; y++) {
       spaces.push(
         <button
-          className="space"
+          className={`space ${highlight[`${x},${y}`]}`}
           onClick={() => {
             handleClick(x,y);
           }}
@@ -19,7 +19,7 @@ export default function Spaces({ handleClick, board, highlight }) {
           id={`${x}${y}`}
         >
           {/* here we are reflecting the state of the virtual board by index */}
-          <div className={`print ${highlight[`${x},${y}`]}`}>{board[x][y]}</div>
+          <div className="print">{board[x][y]}</div>
         </button>
       );
     }
