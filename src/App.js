@@ -167,6 +167,7 @@ function App() {
     setHighlight([]);
     setNextRound(false);
     setPlayerHighlight(['playerHighlight', null]);
+    setMessage('tic-tac-toe');
   };
 
   const clearAll = () => {
@@ -179,6 +180,7 @@ function App() {
       { player: 1, mark: 'X', score: 0 },
       { player: 2, mark: 'O', score: 0 },
     ]);
+    setMessage('tic-tac-toe');
   };
 
   const displayNextRoundBtn = () => {
