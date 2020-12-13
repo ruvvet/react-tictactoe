@@ -169,6 +169,18 @@ function App() {
     setPlayerHighlight(['playerHighlight', null]);
   };
 
+  const clearAll = () => {
+    setBoard([...Array(3)].map(() => Array(3).fill(null)));
+    setPlayer(players[0]);
+    setHighlight([]);
+    setNextRound(false);
+    setPlayerHighlight(['playerHighlight', null]);
+    setPlayers([
+      { player: 1, mark: 'X', score: 0 },
+      { player: 2, mark: 'O', score: 0 },
+    ]);
+  };
+
   const displayNextRoundBtn = () => {
     if (nextRound) {
       return (
@@ -197,6 +209,8 @@ function App() {
         <div className = "player-score"><span className = "player-text">Player 2:</span> {players[1].score} </div>
       </div> */}
       <Players players={players} playerHighlight={playerHighlight} />
+
+      <button className = "next-btn" onClick={clearAll}>RESET</button>
     </div>
   );
 }
