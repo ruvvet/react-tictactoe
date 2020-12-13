@@ -1,4 +1,5 @@
 import Spaces from './components/Spaces';
+import Players from './components/Players';
 import './App.css';
 import React, { useState } from 'react';
 
@@ -9,20 +10,20 @@ function App() {
     { player: 2, mark: 'O', score: 0 },
   ]);
 
-  console.log(players);
-
   // initialize the board
   const [board, setBoard] = useState(
     //Array(9).fill(null)
     [...Array(3)].map(() => Array(3).fill(null))
   );
 
-  const [highlight, setHighlight] = useState({});
-
   // initialize the player
   const [player, setPlayer] = useState(players[0]);
-
-  const [playerScore, setPlayerScore] = useState();
+  const [nextRound, setNextRound] = useState(false);
+  const [highlight, setHighlight] = useState({});
+  const [playerHighlight, setPlayerHighlight] = useState([
+    'playerHighlight',
+    null,
+  ]);
 
   // CHECK WIN CONDITION
 
@@ -127,20 +128,26 @@ function App() {
       if (checkWinner()) {
         setMessage('Winner');
         //update the score
-        player.score++;
 
-        // const playersCopy = [...players];
-        // const findPlayer = (p) => p.player === player.player;
+        const playersCopy = [...players];
+        const playerIndex = players.findIndex(
+          (p) => p.player === player.player
+        );
+        playersCopy[playerIndex].score++;
 
-        // const playerIndex = players.findIndex(findPlayer);
-        // // playersCopy[playerIndex].score++;
+        setPlayers(playersCopy);
 
-        // setPlayers(playersCopy);
+        setNextRound(true);
       } else if (checkWinner() == 'Tie') {
         setMessage('Tie');
       } else {
         // then update the playerstate
         setPlayer(player.mark === players[0].mark ? players[1] : players[0]);
+        if (player === players[0]) {
+          setPlayerHighlight([null, 'playerHighlight']);
+        } else {
+          setPlayerHighlight(['playerHighlight', null]);
+        }
       }
     } else {
       setMessage('you cant move there');
@@ -152,31 +159,44 @@ function App() {
     // now for game logic
     // when a button is clicked, we change players
     // let currentPlayer = player;
-
-    //????????? it only works like 2x
   };
 
   const clearBoard = () => {
     setBoard([...Array(3)].map(() => Array(3).fill(null)));
     setPlayer(players[0]);
-    setHighlight([])
+    setHighlight([]);
+    setNextRound(false);
+    setPlayerHighlight(['playerHighlight', null]);
+  };
+
+  const displayNextRoundBtn = () => {
+    if (nextRound) {
+      return (
+        <div className="nextRound">
+          <button className="next-btn" onClick={clearBoard}>
+            Next Game
+          </button>
+        </div>
+      );
+    }
   };
 
   return (
     <div className="App">
       <div className="message">{message}</div>
-      <Spaces handleClick={handleClick} board={board} highlight={highlight} />
-
+      <div className="main">
+        <Spaces handleClick={handleClick} board={board} highlight={highlight} />
+        {displayNextRoundBtn()}
+      </div>
       <div>
-        Player {player.player} ({player.mark}) Turn
+        Player "<span className="player-text">{player.mark}</span>" Turn
       </div>
 
-      <div>
-        <div>Player 1:  {players[0].score} </div>
-        <div>Player 2:  {players[1].score} </div>
-      </div>
-
-      <button onClick={clearBoard}>reset</button>
+      {/* <div className = "scores">
+        <div className = "player-score"><span className = "player-text"> Player 1:</span> {players[0].score} </div>
+        <div className = "player-score"><span className = "player-text">Player 2:</span> {players[1].score} </div>
+      </div> */}
+      <Players players={players} playerHighlight={playerHighlight} />
     </div>
   );
 }
@@ -185,9 +205,6 @@ export default App;
 
 // useeffect - > reset
 //https://reactjs.org/tutorial/tutorial.html#declaring-a-winner
-
-
-
 
 //input to set a marker >> update player's'
 // say who goes first >> update player

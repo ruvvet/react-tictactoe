@@ -3,6 +3,7 @@
   color: white;
   background: #121212;
   margin-top: 10%;
+  font-size: 30px;
 }
 
 .App-logo {
@@ -38,4 +39,72 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.message{
+  text-transform: uppercase;
+  font-size: 50px;
+  margin: 10px;
+
+}
+
+.main{
+  display: flex;
+  justify-content:center;
+}
+
+
+.nextRound{
+  position: absolute;
+  z-index: 100;
+  height: 45%;
+  width: 100%;
+  background-color: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.next-btn{
+  background-color: transparent;
+  color:white;
+  border: none;
+text-transform: uppercase;
+font-size: 20px;
+margin: 10px;
+transition-duration: 1s;
+width: 20%;
+
+
+
+}
+
+.next-btn:hover{
+  background-color: #CF6679;
+
+}
+
+.player-text{
+
+  color: #CF6679;
+  text-transform: uppercase;
+}
+
+
+.scores{
+  display: flex;
+  justify-content:center;
+}
+
+.player-score{
+  margin: 20px;
+  padding: 15px;
+  transition-duration: 0.3s;
+}
+
+.playerHighlight{
+  border: 3px solid #CF6679;
+  padding: 10px;
 }
