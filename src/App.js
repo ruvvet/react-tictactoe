@@ -25,6 +25,8 @@ function App() {
     null,
   ]);
 
+  const [gameState, setGameState] = useState(true);
+
   // CHECK WIN CONDITION
 
   const [message, setMessage] = useState('tic-tac-toe');
@@ -114,54 +116,59 @@ function App() {
 
     // CREATE A NEW BOARD
     // STOP TRYING TO CHANGE THE OLD ONE
+    // if game is "true"
+    if (gameState) {
+      // if the space is empty, move is valid
+      if (!board[x][y]) {
+        // then update the board and th eboard state
 
-    // if the space is empty, move is valid
-    if (!board[x][y]) {
-      // then update the board and th eboard state
+        const newBoard = [...board];
+        newBoard[x][y] = player.mark;
+        setBoard(newBoard);
 
-      const newBoard = [...board];
-      newBoard[x][y] = player.mark;
-      setBoard(newBoard);
+        // check for a winner
 
-      // check for a winner
+        if (checkWinner()) {
+          setMessage('Winner');
+          //update the score
 
-      if (checkWinner()) {
-        setMessage('Winner');
-        //update the score
+          const playersCopy = [...players];
+          const playerIndex = players.findIndex(
+            (p) => p.player === player.player
+          );
+          playersCopy[playerIndex].score++;
 
-        const playersCopy = [...players];
-        const playerIndex = players.findIndex(
-          (p) => p.player === player.player
-        );
-        playersCopy[playerIndex].score++;
-
-        setPlayers(playersCopy);
-
-        setNextRound(true);
-      } else if (checkWinner() == 'Tie') {
-        setMessage('Tie');
-      } else {
-        // then update the playerstate
-        setPlayer(player.mark === players[0].mark ? players[1] : players[0]);
-        if (player === players[0]) {
-          setPlayerHighlight([null, 'playerHighlight']);
+          setPlayers(playersCopy);
+          setGameState(false);
+          setNextRound(true);
+        } else if (checkWinner() == 'Tie') {
+          setMessage('Tie');
         } else {
-          setPlayerHighlight(['playerHighlight', null]);
+          // then update the playerstate
+          setPlayer(player.mark === players[0].mark ? players[1] : players[0]);
+          if (player === players[0]) {
+            setPlayerHighlight([null, 'playerHighlight']);
+          } else {
+            setPlayerHighlight(['playerHighlight', null]);
+          }
         }
+      } else {
+        setMessage('you cant move there');
+        setTimeout(() => {
+          setMessage('tic-tac-toe');
+        }, 2000);
       }
     } else {
-      setMessage('you cant move there');
-      setTimeout(() => {
-        setMessage('tic-tac-toe');
-      }, 2000);
+      // else game is false, stop taking inputs
+      setMessage('Click the next button');
     }
-
     // now for game logic
     // when a button is clicked, we change players
     // let currentPlayer = player;
   };
 
   const clearBoard = () => {
+    setGameState(true);
     setBoard([...Array(3)].map(() => Array(3).fill(null)));
     setPlayer(players[0]);
     setHighlight([]);
@@ -171,6 +178,7 @@ function App() {
   };
 
   const clearAll = () => {
+    setGameState(true);
     setBoard([...Array(3)].map(() => Array(3).fill(null)));
     setPlayer(players[0]);
     setHighlight([]);
@@ -186,12 +194,12 @@ function App() {
   const displayNextRoundBtn = () => {
     if (nextRound) {
       return (
-        <div className = "nextContainer">
-        <div className="nextRound">
-          <button className="next-btn" onClick={clearBoard}>
-            Next Game
-          </button>
-        </div>
+        <div className="nextContainer">
+          <div className="nextRound">
+            <button className="next-btn" onClick={clearBoard}>
+              Next Game
+            </button>
+          </div>
         </div>
       );
     }
@@ -200,9 +208,10 @@ function App() {
   return (
     <div className="App">
       <div className="message">{message}</div>
+      {displayNextRoundBtn()}
+
       <div className="main">
         <Spaces handleClick={handleClick} board={board} highlight={highlight} />
-        {displayNextRoundBtn()}
       </div>
       <div>
         Player "<span className="player-text">{player.mark}</span>" Turn
@@ -212,9 +221,12 @@ function App() {
         <div className = "player-score"><span className = "player-text"> Player 1:</span> {players[0].score} </div>
         <div className = "player-score"><span className = "player-text">Player 2:</span> {players[1].score} </div>
       </div> */}
-      <Players players={players} playerHighlight={playerHighlight} />
-
-      <button className = "next-btn" onClick={clearAll}>RESET</button>
+      <div>
+        <Players players={players} playerHighlight={playerHighlight} />
+      </div>
+      <button className="next-btn" onClick={clearAll}>
+        RESET
+      </button>
     </div>
   );
 }

@@ -41,79 +41,49 @@
   }
 }
 
-
-.message{
+.message {
   text-transform: uppercase;
   font-size: 50px;
   margin: 10px;
-
 }
 
-.main{
+.main {
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
-
-.nextContainer{
-  position: absolute;
-  z-index: 100;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-
-  height: 50%;
-  width: 50%;
-
-}
-
-.nextRound{
-  width: 100%;
-
-text-align: center;
-  background-color: #121212;
-
-
-}
-
-.next-btn{
+.next-btn {
   background-color: transparent;
-  color:white;
+  color: white;
   border: none;
-text-transform: uppercase;
-font-size: 20px;
-margin: 10px;
-transition-duration: 1s;
-width: 20%;
-
-
-
-}
-
-.next-btn:hover{
-  background-color: #CF6679;
-
-}
-
-.player-text{
-
-  color: #CF6679;
   text-transform: uppercase;
+  font-size: 20px;
+  margin: 10px;
+  transition-duration: 1s;
+  width: 20%;
 }
 
+.next-btn:hover {
+  background-color: #cf6679;
+}
 
-.scores{
+.player-text {
+  color: #cf6679;
+  text-transform: uppercase;
+  transition-duration: 0.5s;
+}
+
+.scores {
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
-.player-score{
+.player-score {
   margin: 20px;
   padding: 15px;
-  transition-duration: 0.3s;
 }
 
-.playerHighlight{
-  border: 3px solid #CF6679;
+.playerHighlight {
+  font-size: 25px;
   padding: 10px;
 }
