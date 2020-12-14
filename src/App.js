@@ -186,10 +186,12 @@ function App() {
   const displayNextRoundBtn = () => {
     if (nextRound) {
       return (
+        <div className = "nextContainer">
         <div className="nextRound">
           <button className="next-btn" onClick={clearBoard}>
             Next Game
           </button>
+        </div>
         </div>
       );
     }

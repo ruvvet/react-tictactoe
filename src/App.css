@@ -55,15 +55,24 @@
 }
 
 
-.nextRound{
+.nextContainer{
   position: absolute;
   z-index: 100;
-  height: 45%;
-  width: 100%;
-  background-color: #121212;
   display: flex;
+  justify-content:center;
   align-items: center;
-  justify-content: center;
+
+  height: 50%;
+  width: 50%;
+
+}
+
+.nextRound{
+  width: 100%;
+
+text-align: center;
+  background-color: #121212;
+
 
 }
 
