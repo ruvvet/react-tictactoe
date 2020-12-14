@@ -1,10 +1,7 @@
 import './spaces.css';
 
 export default function Spaces({ handleClick, board, highlight }) {
-
-
-
-//highlight { 'xy': 'highlight'}
+  //highlight { 'xy': 'highlight'}
 
   const spaces = [];
   for (let x = 0; x < 3; x++) {
@@ -13,7 +10,7 @@ export default function Spaces({ handleClick, board, highlight }) {
         <button
           className={`space ${highlight[`${x},${y}`]}`}
           onClick={() => {
-            handleClick(x,y);
+            handleClick(x, y);
           }}
           key={`space-${x}${y}`}
           id={`${x}${y}`}
